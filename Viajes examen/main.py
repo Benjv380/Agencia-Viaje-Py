@@ -1,6 +1,7 @@
-import globales
+import globales, estadisticas
 import random
 import os
+import json
 
 def menu_geeneral():
     while True:
@@ -11,20 +12,40 @@ def menu_geeneral():
         print("5.	Salir del programa")
 
         opcion = globales.seleccionar_opcion(5)
-
-        if opcion == 1:
-            asignar_costos()
+        try:    
+            if opcion == 1:
+                asignar_costos()
+                os.system("cls")
+            elif opcion == 2:
+                os.system("cls")
+                clasificar_viajes()
+            elif opcion == 3:
+                print("1. Promedio")
+                print("2. Media Geometrica")
+                print("3. Viaje mas caro")
+                print("4. Viaje mas barato")
+                print("0. Salir")
+                opcion1 = globales.seleccionar_opcion(5)
+                if opcion1 == 1:
+                    estadisticas.promedio()
+                elif opcion1 == 2:
+                    estadisticas.media_geometrica()
+                elif opcion1 == 3:
+                    estadisticas.venta_alta()
+                elif opcion1 == 4:
+                    estadisticas.venta_baja()
+                elif opcion1 == 5:
+                    break
+                    
+            elif opcion == 4:
+                reporte_de_reservas()
+            elif opcion == 5:
+                return
+            input()
+        except:
             os.system("cls")
-        elif opcion == 2:
-            clasificar_viajes()
+            input("no ha generado archivo Json.")
             os.system("cls")
-        elif opcion == 3:
-            print("3.	Ver estadísticas de reservas")
-        elif opcion == 4:
-            print("4.	Reporte de reservas")
-        elif opcion == 5:
-            return
-        input()
 
 def asignar_costos():
     destinos = ["París",
@@ -76,11 +97,11 @@ def clasificar_viajes():
     }
 
     for viaje in todos_los_viajes:
-        if viaje['costo viaje'] <= 300:
+        if viaje['costo total'] <= 300:
             categorias["menores a $300"].append(viaje)
-        elif viaje['costo viaje'] > 301 and viaje['costo viaje'] <= 700:
+        elif viaje['costo total'] > 301 and viaje['costo total'] <= 700:
             categorias["entre $301 y $700"].append(viaje)
-        elif viaje['costo viaje'] >= 701:
+        elif viaje['costo total'] >= 701:
             categorias["sobre $701"].append(viaje)
     
     for clave, valor in categorias.items():
@@ -90,7 +111,7 @@ def clasificar_viajes():
         print("Nombre del destino       Costo")
 
         for precio in valor:
-            print(f"{precio['destino']} \t\t ${precio['costo viaje']}")
+            print(f"{precio['destino']} \t\t ${precio['costo total']}")
 
 
 def reporte_de_reservas():

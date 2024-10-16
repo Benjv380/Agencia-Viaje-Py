@@ -1,5 +1,6 @@
 import json
 import csv
+import globales
 
 def seleccionar_opcion(max_value):
     opcion = 0
